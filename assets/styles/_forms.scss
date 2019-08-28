@@ -1,0 +1,17 @@
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    min-height: 5rem;
+    border: 1px solid var(--silver);
+    border-radius: var(--radius);
+    outline: none;
+    transition: all 0.5s;
+
+    &:focus {
+        border-color: var(--queen-blue);
+        box-shadow:
+            -4px -6px 8px var(--queen-blue-pale),
+            6px 4px 12px var(--queen-blue-pale);
+    }
+}

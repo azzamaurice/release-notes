@@ -1,0 +1,11 @@
+.btn {
+    padding: 0.5rem 2rem;
+    border: 1px solid var(--silver);
+    border-radius: var(--radius);
+
+    &.blaze {
+        color: white;
+        background: var(--blaze);
+        border-color: var(--blaze);
+    }
+}

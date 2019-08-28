@@ -8,6 +8,7 @@ export default {
             { hid: 'description', name: 'description', content: 'Release notes generator' }
         ],
         link: [
+            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Alegreya:500|Open+Sans:400,600|Inconsolata&display=swap' },
             { rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png' },
             { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/img/favicon-32x32.png' },
             { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/img/favicon-16x16.png' },

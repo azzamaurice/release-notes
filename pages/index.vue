@@ -1,13 +1,7 @@
 <template>
     <div class="release-notes">
         <header>
-            <h1>Release notes</h1>
-
-            <button
-                class="clear"
-                @click="clearText">
-                Clear
-            </button>
+            <h1>Release Notes</h1>
         </header>
 
         <main>
@@ -57,7 +51,7 @@
             </section>
 
             <section>
-                <h2>Output Options</h2>
+                <h2>Output</h2>
                 <label for="radio-slack">
                     <input v-model="outputType" id="radio-slack" type="radio" value="slack">
                     Slack
@@ -70,8 +64,6 @@
                     <input v-model="outputType" id="radio-journal" type="radio" value="journal">
                     Journal
                 </label>
-
-                <h2>Output</h2>
 
                 <Slack
                     v-if="outputType === `slack`"
@@ -86,6 +78,19 @@
                     v-bind="journalProps"/>
             </section>
         </main>
+        <footer>
+            <button
+                class="btn"
+                @click="clearText">
+                Clear
+            </button>
+
+            <button
+                class="btn blaze"
+                @click="copy">
+                Copy
+            </button>
+        </footer>
     </div>
 </template>
 
@@ -230,6 +235,9 @@ export default {
             this.newFeatures = ``
             this.uiImprovements = ``
             this.bugFixes = ``
+        },
+        copy() {
+            console.log(`copy()`)
         }
     }
 }
@@ -256,19 +264,45 @@ header {
     display: flex;
     flex: 0 0 auto;
     padding: 1rem;
+    color: white;
+    background: var(--blaze);
+    z-index: 2;
+    box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
+
+    h1 {
+        margin: 0;
+    }
 }
+
 
 main {
     display: flex;
     flex-direction: var(--main-flex-direction);
     flex: 1 1 auto;
+    z-index: 1;
     overflow: hidden;
+}
+
+footer {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    padding: 1rem;
+    background-color: var(--beige);
+    z-index: 2;
+    box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
+
+    button {
+        & + button {
+            margin-left: 1rem;
+        }
+    }
 }
 
 section {
     flex: var(--section-flex);
     padding: 1rem;
-    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .clear {
