@@ -8,83 +8,96 @@ import { each } from 'lodash-es'
 export default {
     name: 'Slack',
     props: {
-        general: String,
-        behind: [Array, String],
-        beta: [Array, String],
-        features: [Array, String],
-        improvements: [Array, String],
-        fixes: [Array, String]
+        general: [String, Boolean],
+        behind: [Array, String, Boolean],
+        beta: [Array, String, Boolean],
+        features: [Array, String, Boolean],
+        improvements: [Array, String, Boolean],
+        fixes: [Array, String, Boolean]
     },
     computed: {
         output() {
-            let output = `Hey @channel!
-Time for another weekly ChMS update!\n`
+            let output = [
+                `Hey @channel!`,
+                `Time for another weekly ChMS update!`
+            ]
 
             if (this.general) {
-                output += `${this.general}\n`
+                output.push(`${this.general}`)
             }
 
-            output += `\n`
+            output.push(``)
 
             if (this.behind) {
-                output += `*Behind the Scenes*
-Behind the scenes, we've been working on the following areas:\n`
+                output.push(
+                    `*Behind the Scenes*`,
+                    `Behind the scenes, we've been working on the following areas:`
+                )
 
                 each(this.behind, item => {
-                    output += `- ${item}\n`
+                    output.push(`- ${item}`)
                 })
 
-                output += `Stay tuned to hear more about these as part of a future update!\n\n`
+                output.push(
+                    `Stay tuned to hear more about these as part of a future update!`,
+                    ``
+                )
             }
 
             if (this.beta) {
-                output += `*Beta Improvements*\n`
+                output.push(`*Beta Improvements*`)
 
                 if (this.beta && this.behind) {
-                    output += `We've also made a number of improvements to our existing BETA features, including:\n`
+                    output.push(`We've also made a number of improvements to our existing BETA features, including:`)
                 } else {
-                    output += `To start off with, we've made the following improvements to our existing BETA features:\n`
+                    output.push(`To start off with, we've made the following improvements to our existing BETA features:`)
                 }
 
                 each(this.beta, item => {
-                    output += `- ${item}\n`
+                    output.push(`- ${item}`)
                 })
 
-                output += `\n`
+                output.push(``)
             }
 
             if (this.features) {
-                output += `*New Features*
-We're pleased to announce the following new features have been released this week!\n`
+                output.push(
+                    `*New Features*`,
+                    `We're pleased to announce the following new features have been released this week!`
+                )
 
                 each(this.features, item => {
-                    output += `- ${item}\n`
+                    output.push(`- ${item}`)
                 })
 
-                output += `\n`
+                output.push(``)
             }
 
             if (this.improvements) {
-                output += `*General Improvements*
-We've made some general improvements to the system this week, including:\n`
+                output.push(
+                    `*General Improvements*`,
+                    `We've made some general improvements to the system this week, including:`
+                )
 
                 each(this.improvements, item => {
-                    output += `- ${item}\n`
+                    output.push(`- ${item}`)
                 })
 
-                output += `\n`
+                output.push(``)
             }
 
             if (this.fixes) {
-                output += `*Bug Fixes*
-In addition to the above news, we also fixed the following bugs:\n`
+                output.push(
+                    `*Bug Fixes*`,
+                    `In addition to the above news, we also fixed the following bugs:`
+                )
 
                 each(this.fixes, item => {
-                    output += `- ${item}\n`
+                    output.push(`- ${item}`)
                 })
             }
 
-            return output
+            return output.join(`\n`)
         }
     }
 }

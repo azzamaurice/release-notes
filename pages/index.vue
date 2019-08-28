@@ -1,97 +1,101 @@
 <template>
-    <div>
-        <h1>Release notes</h1>
+    <div class="release-notes">
+        <header>
+            <h1>Release notes</h1>
 
-        <h2>General Message</h2>
-        <textarea
-            v-model="generalMessage"
-            placeholder="Welcoming Message"
-            cols="65"
-            rows="3"></textarea>
+            <button
+                class="clear"
+                @click="clearText">
+                Clear
+            </button>
+        </header>
 
-        <h2>Journal Only Message</h2>
-        <textarea
-            v-model="journalOnly"
-            placeholder="Information for super-behind-the scenes"
-            cols="65"
-            rows="3"></textarea>
+        <main>
+            <section>
+                <h2>General Message</h2>
+                <textarea
+                    v-model="general"
+                    placeholder="Welcoming Message">
 
-        <h2>Behind the scenes</h2>
-        <textarea
-            v-model="behindTheScenes"
-            placeholder="What's something that's been worked on?"
-            cols="65"
-            rows="5"></textarea>
+                </textarea>
 
-        <h2>Beta Improvements</h2>
-        <textarea
-            v-model="betaFeatures"
-            placeholder="Any improvements to our BETA features this week?"
-            cols="65"
-            rows="5"></textarea>
-        <h2>New Features</h2>
-        <textarea
-            v-model="newFeatures"
-            placeholder="New Features this week"
-            cols="65"
-            rows="3"></textarea>
+                <h2>Journal Only Message</h2>
+                <textarea
+                    v-model="journal"
+                    placeholder="Information for super-behind-the scenes">
+                </textarea>
 
-        <h2>UI + Other Improvements</h2>
-        <textarea
-            v-model="uiImprovements"
-            placeholder="General Improvements to the system"
-            cols="65"
-            rows="3"></textarea>
+                <h2>Behind the scenes</h2>
+                <textarea
+                    v-model="behindTheScenes"
+                    placeholder="What's something that's been worked on?">
+                </textarea>
 
-        <h2>Bug Fixes</h2>
-        <textarea
-            v-model="bugFixes"
-            placeholder="Bugs fixed this week"
-            cols="65"
-            rows="5"></textarea>
-        <button @click="clearText">Clear Text</button>
+                <h2>Beta Improvements</h2>
+                <textarea
+                    v-model="betaFeatures"
+                    placeholder="Any improvements to our BETA features this week?">
+                </textarea>
 
-        <h2>Output Options</h2>
-        <label for="radio-slack">
-            <input v-model="outputType" id="radio-slack" type="radio" value="slack">
-            Slack
-        </label>
-        <label for="radio-changelog">
-            <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
-            Changelog
-        </label>
-        <label for="radio-journal">
-            <input v-model="outputType" id="radio-journal" type="radio" value="journal">
-            Journal
-        </label>
+                <h2>New Features</h2>
+                <textarea
+                    v-model="newFeatures"
+                    placeholder="New Features this week">
+                </textarea>
 
-        <h2>Output</h2>
+                <h2>UI + Other Improvements</h2>
+                <textarea
+                    v-model="uiImprovements"
+                    placeholder="General Improvements to the system">
+                </textarea>
 
-        <Slack
-            v-if="outputType === `slack`"
-            v-bind="slackProps"/>
+                <h2>Bug Fixes</h2>
+                <textarea
+                    v-model="bugFixes"
+                    placeholder="Bugs fixed this week">
+                </textarea>
+            </section>
 
-        <Changelog
-            v-if="outputType === `changelog`"
-            v-bind="changelogProps"/>
+            <section>
+                <h2>Output Options</h2>
+                <label for="radio-slack">
+                    <input v-model="outputType" id="radio-slack" type="radio" value="slack">
+                    Slack
+                </label>
+                <label for="radio-changelog">
+                    <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
+                    Changelog
+                </label>
+                <label for="radio-journal">
+                    <input v-model="outputType" id="radio-journal" type="radio" value="journal">
+                    Journal
+                </label>
 
-        <Journal
-            v-if="outputType === `journal`"
-            v-bind="journalProps"/>
+                <h2>Output</h2>
+
+                <Slack
+                    v-if="outputType === `slack`"
+                    v-bind="slackProps"/>
+
+                <Changelog
+                    v-if="outputType === `changelog`"
+                    v-bind="changelogProps"/>
+
+                <Journal
+                    v-if="outputType === `journal`"
+                    v-bind="journalProps"/>
+            </section>
+        </main>
     </div>
 </template>
 
 <script>
-import Changelog from '@/components/Changelog'
-import Journal from '@/components/Journal'
-import Slack from '@/components/Slack'
-
 export default {
     name: `ReleaseNotes`,
     components: {
-        Changelog,
-        Journal,
-        Slack
+        Changelog: () => import('@/components/Changelog'),
+        Journal: () => import('@/components/Journal'),
+        Slack: () => import('@/components/Slack')
     },
     data() {
         return {
@@ -108,7 +112,7 @@ export default {
     computed: {
         slackProps() {
             return {
-                general: this.generalMessage,
+                general: this.general,
                 behind: this.behind,
                 beta: this.beta,
                 features: this.features,
@@ -118,7 +122,7 @@ export default {
         },
         changelogProps() {
             return {
-                general: this.generalMessage,
+                general: this.general,
                 behind: this.behind,
                 beta: this.beta,
                 features: this.features,
@@ -128,8 +132,8 @@ export default {
         },
         journalProps() {
             return {
-                general: this.generalMessage,
-                journal: this.journalOnly,
+                general: this.general,
+                journal: this.journal,
                 behind: this.behind,
                 beta: this.beta,
                 features: this.features,
@@ -219,8 +223,8 @@ export default {
     },
     methods: {
         clearText() {
-            this.generalMessage = ``
-            this.journalOnly = ``
+            this.general = ``
+            this.journal = ``
             this.behindTheScenes = ``
             this.betaFeatures = ``
             this.newFeatures = ``
@@ -230,3 +234,44 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.release-notes {
+    --main-flex-direction: column;
+    --section-flex: 0 0 100%;
+
+    @media (min-width: 768px) {
+        --main-flex-direction: row;
+        --section-flex: 1 1 50%;
+    }
+}
+
+.release-notes {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    flex: 0 0 auto;
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+    flex-direction: var(--main-flex-direction);
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+section {
+    flex: var(--section-flex);
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.clear {
+    margin-left: auto;
+}
+</style>

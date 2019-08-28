@@ -4,13 +4,13 @@ import { map } from 'lodash-es'
 export default {
     name: 'Journal',
     props: {
-        general: String,
-        journal: String,
-        behind: [Array, String],
-        beta: [Array, String],
-        features: [Array, String],
-        improvements: [Array, String],
-        fixes: [Array, String]
+        general: [String, Boolean],
+        journal: [String, Boolean],
+        behind: [Array, String, Boolean],
+        beta: [Array, String, Boolean],
+        features: [Array, String, Boolean],
+        improvements: [Array, String, Boolean],
+        fixes: [Array, String, Boolean]
     },
     render(h) {
         const output = []
