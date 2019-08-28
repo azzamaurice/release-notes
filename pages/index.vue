@@ -67,12 +67,26 @@
 
         <h2>Output</h2>
 
+        <Slack
+            v-if="outputType === `slack`"
+            v-bind="slackProps"/>
+
+        <Changelog
+            v-if="outputType === `changelog`"
+            v-bind="changelogProps"/>
     </div>
 </template>
 
 <script>
+import Changelog from '@/components/Changelog'
+import Slack from '@/components/Slack'
+
 export default {
     name: `ReleaseNotes`,
+    components: {
+        Changelog,
+        Slack
+    },
     data() {
         return {
             generalMessage: ``,
@@ -86,6 +100,26 @@ export default {
         }
     },
     computed: {
+        slackProps() {
+            return {
+                general: this.generalMessage,
+                behind: this.behind,
+                beta: this.beta,
+                features: this.features,
+                improvements: this.improvements,
+                fixes: this.fixes
+            }
+        },
+        changelogProps() {
+            return {
+                general: this.generalMessage,
+                behind: this.behind,
+                beta: this.beta,
+                features: this.features,
+                improvements: this.improvements,
+                fixes: this.fixes
+            }
+        },
         behind() {
             if (this.behindTheScenes.length) {
                 let split = this.behindTheScenes.split('\n')
