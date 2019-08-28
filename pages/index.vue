@@ -104,14 +104,14 @@ export default {
     },
     data() {
         return {
-            generalMessage: ``,
-            journalOnly: ``,
-            behindTheScenes: ``,
-            betaFeatures: ``,
-            newFeatures: ``,
-            uiImprovements: ``,
-            bugFixes: ``,
-            outputType: `slack`
+            general: `Parturient vestibulum fringilla lorem amet a a quam mus ridiculus scelerisque a sed adipiscing ipsum potenti arcu.`,
+            journal: ` Parturient posuere sem parturient eros iaculis ornare quis mi purus a blandit eu felis leo tincidunt potenti faucibus eros nam aptent penatibus dis ad phasellus.`,
+            behindTheScenes: `augue\npurus\nhabitant\nparturient\npurus\nvolutpat`,
+            betaFeatures: `blandit\ndignissim\nmassa\norci\ndapibus\nvestibulum`,
+            newFeatures: `dictum\nconsectetur\ntorquent\nsuscipit\nparturient\nhendrerit`,
+            uiImprovements: `praesent\nprimis\ncongue\nmollis\nultricies\npenatibus`,
+            bugFixes: `nunc\nenim\ncongue\npotenti\nmalesuada\nvulputate\nadipiscing`,
+            outputType: ``
         }
     },
     computed: {
