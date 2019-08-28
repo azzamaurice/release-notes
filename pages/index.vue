@@ -78,6 +78,7 @@
                     v-bind="journalProps"/>
             </section>
         </main>
+
         <footer>
             <button
                 class="btn"
@@ -300,10 +301,12 @@ export default {
 <style lang="scss" scoped>
 .release-notes {
     --main-flex-direction: column;
+    --main-overflow: auto;
     --section-flex: 0 0 100%;
 
     @media (min-width: 768px) {
         --main-flex-direction: row;
+        --main-overflow: hidden;
         --section-flex: 1 1 50%;
     }
 }
@@ -343,6 +346,7 @@ footer {
     justify-content: flex-end;
     padding: 1rem;
     background-color: var(--beige);
+    overflow: var(--main-overflow);
     z-index: 2;
     box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
 
