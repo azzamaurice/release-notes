@@ -74,17 +74,23 @@
         <Changelog
             v-if="outputType === `changelog`"
             v-bind="changelogProps"/>
+
+        <Journal
+            v-if="outputType === `journal`"
+            v-bind="journalProps"/>
     </div>
 </template>
 
 <script>
 import Changelog from '@/components/Changelog'
+import Journal from '@/components/Journal'
 import Slack from '@/components/Slack'
 
 export default {
     name: `ReleaseNotes`,
     components: {
         Changelog,
+        Journal,
         Slack
     },
     data() {
@@ -113,6 +119,17 @@ export default {
         changelogProps() {
             return {
                 general: this.generalMessage,
+                behind: this.behind,
+                beta: this.beta,
+                features: this.features,
+                improvements: this.improvements,
+                fixes: this.fixes
+            }
+        },
+        journalProps() {
+            return {
+                general: this.generalMessage,
+                journal: this.journalOnly,
                 behind: this.behind,
                 beta: this.beta,
                 features: this.features,
