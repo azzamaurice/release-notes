@@ -5,92 +5,96 @@
         </header>
 
         <main>
-            <section>
-                <h2>Input details</h2>
+            <div class="main-inner">
+                <section>
+                    <h2>Input details</h2>
 
-                <FormTextArea
-                    v-model="general"
-                    label="General Message"
-                    placeholder="Welcoming Message"/>
+                    <FormTextArea
+                        v-model="general"
+                        label="General Message"
+                        placeholder="Welcoming Message"/>
 
-                <FormTextArea
-                    v-model="journal"
-                    label="Journal Only Message"
-                    placeholder="Information for super-behind-the scenes"/>
+                    <FormTextArea
+                        v-model="journal"
+                        label="Journal Only Message"
+                        placeholder="Information for super-behind-the scenes"/>
 
-                <FormTextArea
-                    v-model="behindTheScenes"
-                    label="Behind the scenes"
-                    placeholder="What's something that's been worked on?"/>
+                    <FormTextArea
+                        v-model="behindTheScenes"
+                        label="Behind the scenes"
+                        placeholder="What's something that's been worked on?"/>
 
-                <FormTextArea
-                    v-model="betaFeatures"
-                    label="Beta Improvements"
-                    placeholder="Any improvements to our BETA features this week?"/>
+                    <FormTextArea
+                        v-model="betaFeatures"
+                        label="Beta Improvements"
+                        placeholder="Any improvements to our BETA features this week?"/>
 
-                <FormTextArea
-                    v-model="newFeatures"
-                    label="New Features"
-                    placeholder="New Features this week"/>
+                    <FormTextArea
+                        v-model="newFeatures"
+                        label="New Features"
+                        placeholder="New Features this week"/>
 
-                <FormTextArea
-                    v-model="uiImprovements"
-                    label="UI + Other Improvements"
-                    placeholder="General Improvements to the system"/>
+                    <FormTextArea
+                        v-model="uiImprovements"
+                        label="UI + Other Improvements"
+                        placeholder="General Improvements to the system"/>
 
-                <FormTextArea
-                    v-model="bugFixes"
-                    label="Bug Fixes"
-                    placeholder="Bugs fixed this week"/>
-            </section>
+                    <FormTextArea
+                        v-model="bugFixes"
+                        label="Bug Fixes"
+                        placeholder="Bugs fixed this week"/>
+                </section>
 
-            <section>
-                <h2>Output</h2>
+                <section>
+                    <h2>Output</h2>
 
-                <div class="options">
-                    <label for="radio-slack">
-                        <input v-model="outputType" id="radio-slack" type="radio" value="slack">
-                        Slack
-                    </label>
-                    <label for="radio-changelog">
-                        <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
-                        Changelog
-                    </label>
-                    <label for="radio-journal">
-                        <input v-model="outputType" id="radio-journal" type="radio" value="journal">
-                        Journal
-                    </label>
-                </div>
+                    <div class="options">
+                        <label for="radio-slack">
+                            <input v-model="outputType" id="radio-slack" type="radio" value="slack">
+                            Slack
+                        </label>
+                        <label for="radio-changelog">
+                            <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
+                            Changelog
+                        </label>
+                        <label for="radio-journal">
+                            <input v-model="outputType" id="radio-journal" type="radio" value="journal">
+                            Journal
+                        </label>
+                    </div>
 
-                <Slack
-                    v-if="outputType === `slack`"
-                    v-bind="slackProps"
-                    @output="updateOutput"/>
+                    <Slack
+                        v-if="outputType === `slack`"
+                        v-bind="slackProps"
+                        @output="updateOutput"/>
 
-                <Changelog
-                    v-if="outputType === `changelog`"
-                    v-bind="changelogProps"
-                    @output="updateOutput"/>
+                    <Changelog
+                        v-if="outputType === `changelog`"
+                        v-bind="changelogProps"
+                        @output="updateOutput"/>
 
-                <Journal
-                    v-if="outputType === `journal`"
-                    ref="journal"
-                    v-bind="journalProps"/>
-            </section>
+                    <Journal
+                        v-if="outputType === `journal`"
+                        ref="journal"
+                        v-bind="journalProps"/>
+                </section>
+            </div>
         </main>
 
         <footer>
-            <button
-                class="btn"
-                @click="clearText">
-                Clear
-            </button>
+            <div class="footer-inner">
+                <button
+                    class="btn"
+                    @click="clearText">
+                    Clear
+                </button>
 
-            <button
-                class="btn blaze"
-                @click="copy">
-                Copy
-            </button>
+                <button
+                    class="btn blaze"
+                    @click="copy">
+                    Copy
+                </button>
+            </div>
         </footer>
     </div>
 </template>
@@ -300,26 +304,33 @@ export default {
 
 <style lang="scss" scoped>
 .release-notes {
-    --main-flex-direction: column;
-    --main-overflow: auto;
+    --main-inner-flex-direction: column;
+    --main-overflow-y: auto;
     --section-flex: 0 0 100%;
+    --section-overflow-y: visible;
 
     @media (min-width: 768px) {
-        --main-flex-direction: row;
-        --main-overflow: hidden;
+        --main-inner-flex-direction: row;
+        --main-overflow-y: hidden;
         --section-flex: 1 1 50%;
+        --section-overflow-y: scroll;
     }
 }
 
 .release-notes {
-    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 header {
-    display: flex;
-    flex: 0 0 auto;
+    flex: 0;
+    /*display: flex;*/
     padding: 1rem;
     color: white;
     background: var(--blaze);
@@ -331,19 +342,22 @@ header {
     }
 }
 
-
 main {
     display: flex;
-    flex-direction: var(--main-flex-direction);
-    flex: 1 1 auto;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: var(--main-overflow-y);
     z-index: 1;
-    overflow: var(--main-overflow);
+}
+
+.main-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: var(--main-inner-flex-direction);
 }
 
 footer {
-    display: flex;
-    flex: 0 0 auto;
-    justify-content: flex-end;
+    flex: 0;
     padding: 1rem;
     background-color: var(--beige);
     z-index: 2;
@@ -356,10 +370,15 @@ footer {
     }
 }
 
+.footer-inner {
+    display: flex;
+    justify-content: flex-end;
+}
+
 section {
     flex: var(--section-flex);
     padding: 1rem;
-    overflow-y: auto;
+    overflow-y: var(--section-overflow-y);
 }
 
 .options {
