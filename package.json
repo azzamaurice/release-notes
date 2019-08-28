@@ -16,6 +16,7 @@
     "sass-loader": "^7.3.1"
   },
   "devDependencies": {
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "normalize.css": "^8.0.1"
   }
 }
