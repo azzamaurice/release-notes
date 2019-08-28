@@ -6,75 +6,75 @@
 
         <main>
             <section>
-                <h2>General Message</h2>
-                <textarea
+                <h2>Input details</h2>
+
+                <FormTextArea
                     v-model="general"
-                    placeholder="Welcoming Message">
+                    label="General Message"
+                    placeholder="Welcoming Message"/>
 
-                </textarea>
-
-                <h2>Journal Only Message</h2>
-                <textarea
+                <FormTextArea
                     v-model="journal"
-                    placeholder="Information for super-behind-the scenes">
-                </textarea>
+                    label="Journal Only Message"
+                    placeholder="Information for super-behind-the scenes"/>
 
-                <h2>Behind the scenes</h2>
-                <textarea
+                <FormTextArea
                     v-model="behindTheScenes"
-                    placeholder="What's something that's been worked on?">
-                </textarea>
+                    label="Behind the scenes"
+                    placeholder="What's something that's been worked on?"/>
 
-                <h2>Beta Improvements</h2>
-                <textarea
+                <FormTextArea
                     v-model="betaFeatures"
-                    placeholder="Any improvements to our BETA features this week?">
-                </textarea>
+                    label="Beta Improvements"
+                    placeholder="Any improvements to our BETA features this week?"/>
 
-                <h2>New Features</h2>
-                <textarea
+                <FormTextArea
                     v-model="newFeatures"
-                    placeholder="New Features this week">
-                </textarea>
+                    label="New Features"
+                    placeholder="New Features this week"/>
 
-                <h2>UI + Other Improvements</h2>
-                <textarea
+                <FormTextArea
                     v-model="uiImprovements"
-                    placeholder="General Improvements to the system">
-                </textarea>
+                    label="UI + Other Improvements"
+                    placeholder="General Improvements to the system"/>
 
-                <h2>Bug Fixes</h2>
-                <textarea
+                <FormTextArea
                     v-model="bugFixes"
-                    placeholder="Bugs fixed this week">
-                </textarea>
+                    label="Bug Fixes"
+                    placeholder="Bugs fixed this week"/>
             </section>
 
             <section>
                 <h2>Output</h2>
-                <label for="radio-slack">
-                    <input v-model="outputType" id="radio-slack" type="radio" value="slack">
-                    Slack
-                </label>
-                <label for="radio-changelog">
-                    <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
-                    Changelog
-                </label>
-                <label for="radio-journal">
-                    <input v-model="outputType" id="radio-journal" type="radio" value="journal">
-                    Journal
-                </label>
+
+                <div class="options">
+                    <label for="radio-slack">
+                        <input v-model="outputType" id="radio-slack" type="radio" value="slack">
+                        Slack
+                    </label>
+                    <label for="radio-changelog">
+                        <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
+                        Changelog
+                    </label>
+                    <label for="radio-journal">
+                        <input v-model="outputType" id="radio-journal" type="radio" value="journal">
+                        Journal
+                    </label>
+                </div>
 
                 <Slack
                     v-if="outputType === `slack`"
-                    v-bind="slackProps"/>
+                    v-bind="slackProps"
+                    @output="updateOutput"/>
 
                 <Changelog
                     v-if="outputType === `changelog`"
-                    v-bind="changelogProps"/>
+                    v-bind="changelogProps"
+                    @output="updateOutput"/>
 
                 <Journal
                     v-if="outputType === `journal`"
+                    ref="journal"
                     v-bind="journalProps"/>
             </section>
         </main>
@@ -95,24 +95,40 @@
 </template>
 
 <script>
+import Copy from 'copy-to-clipboard'
+import Storage from 'local-storage'
+import FormTextArea from '@/components/FormTextArea'
+
 export default {
     name: `ReleaseNotes`,
     components: {
+        FormTextArea,
         Changelog: () => import('@/components/Changelog'),
         Journal: () => import('@/components/Journal'),
         Slack: () => import('@/components/Slack')
     },
     data() {
         return {
-            general: `Parturient vestibulum fringilla lorem amet a a quam mus ridiculus scelerisque a sed adipiscing ipsum potenti arcu.`,
-            journal: ` Parturient posuere sem parturient eros iaculis ornare quis mi purus a blandit eu felis leo tincidunt potenti faucibus eros nam aptent penatibus dis ad phasellus.`,
-            behindTheScenes: `augue\npurus\nhabitant\nparturient\npurus\nvolutpat`,
-            betaFeatures: `blandit\ndignissim\nmassa\norci\ndapibus\nvestibulum`,
-            newFeatures: `dictum\nconsectetur\ntorquent\nsuscipit\nparturient\nhendrerit`,
-            uiImprovements: `praesent\nprimis\ncongue\nmollis\nultricies\npenatibus`,
-            bugFixes: `nunc\nenim\ncongue\npotenti\nmalesuada\nvulputate\nadipiscing`,
+            general: ``,
+            journal: ``,
+            behindTheScenes: ``,
+            betaFeatures: ``,
+            newFeatures: ``,
+            uiImprovements: ``,
+            bugFixes: ``,
+            output: `slack`,
             outputType: ``
         }
+    },
+    created() {
+        this.general = Storage.get(`general`) || ``
+        this.journal = Storage.get(`journal`) || ``
+        this.behindTheScenes = Storage.get(`behindTheScenes`) || ``
+        this.betaFeatures = Storage.get(`betaFeatures`) || ``
+        this.newFeatures = Storage.get(`newFeatures`) || ``
+        this.uiImprovements = Storage.get(`uiImprovements`) || ``
+        this.bugFixes = Storage.get(`bugFixes`) || ``
+        this.outputType = Storage.get(`outputType`) || ``
     },
     computed: {
         slackProps() {
@@ -236,8 +252,46 @@ export default {
             this.uiImprovements = ``
             this.bugFixes = ``
         },
+        updateOutput(value) {
+            this.output = value
+        },
         copy() {
-            console.log(`copy()`)
+            if (this.outputType !== `journal`) {
+                Copy(this.output)
+            } else {
+                Copy(
+                    this.$refs.journal.$el.innerHTML,
+                    {
+                        format: `text/html`
+                    }
+                )
+            }
+        }
+    },
+    watch: {
+        general(value) {
+            Storage.set(`general`, value)
+        },
+        journal(value) {
+            Storage.set(`journal`, value)
+        },
+        behindTheScenes(value) {
+            Storage.set(`behindTheScenes`, value)
+        },
+        betaFeatures(value) {
+            Storage.set(`betaFeatures`, value)
+        },
+        newFeatures(value) {
+            Storage.set(`newFeatures`, value)
+        },
+        uiImprovements(value) {
+            Storage.set(`uiImprovements`, value)
+        },
+        bugFixes(value) {
+            Storage.set(`bugFixes`, value)
+        },
+        outputType(value) {
+            Storage.set(`outputType`, value)
         }
     }
 }
@@ -305,7 +359,7 @@ section {
     overflow-y: auto;
 }
 
-.clear {
-    margin-left: auto;
+.options {
+    margin-bottom: 1rem;
 }
 </style>

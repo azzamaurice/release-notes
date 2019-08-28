@@ -96,6 +96,11 @@
 
                 return output.join(`\n`)
             }
+        },
+        watch: {
+            output(value) {
+                this.$emit(`output`, value)
+            }
         }
     }
 </script>

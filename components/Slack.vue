@@ -19,14 +19,16 @@ export default {
         output() {
             let output = [
                 `Hey @channel!`,
-                `Time for another weekly ChMS update!`
+                `Time for another weekly ChMS update!`,
+                ``
             ]
 
             if (this.general) {
-                output.push(`${this.general}`)
+                output.push(
+                    `${this.general}`,
+                    ``
+                )
             }
-
-            output.push(``)
 
             if (this.behind) {
                 output.push(
@@ -98,6 +100,11 @@ export default {
             }
 
             return output.join(`\n`)
+        }
+    },
+    watch: {
+        output(value) {
+            this.$emit(`output`, value)
         }
     }
 }

@@ -59,7 +59,28 @@ export default {
             output.push(h(`ul`, map(this.fixes, i => h(`li`, i))))
         }
 
-        return h(`div`, output)
+        return h(
+            `div`,
+            {
+                class: `journal-preview`
+            },
+            output
+        )
+    },
+    watch: {
+        output(value) {
+            this.$emit(`output`, value)
+        }
     }
 }
 </script>
+
+
+<style lang="scss" scoped>
+.journal-preview {
+    padding: 0 1rem;
+    background-color: var(--beige-pale);
+    border: 1px solid var(--silver);
+    border-radius: var(--radius);
+}
+</style>
