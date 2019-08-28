@@ -1,5 +1,7 @@
 # Release Notes
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/479a0c07-cac5-4448-a599-6fac9879bfcd/deploy-status)](https://app.netlify.com/sites/release-notes-generator/deploys)
+
 > Release notes generator
 
 ## Build Setup
