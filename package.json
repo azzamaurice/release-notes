@@ -1,0 +1,17 @@
+{
+  "name": "release-notes",
+  "version": "1.0.0",
+  "description": "Release notes generator",
+  "author": "azzamaurice",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {}
+}
