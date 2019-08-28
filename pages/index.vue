@@ -337,7 +337,7 @@ main {
     flex-direction: var(--main-flex-direction);
     flex: 1 1 auto;
     z-index: 1;
-    overflow: hidden;
+    overflow: var(--main-overflow);
 }
 
 footer {
@@ -346,7 +346,6 @@ footer {
     justify-content: flex-end;
     padding: 1rem;
     background-color: var(--beige);
-    overflow: var(--main-overflow);
     z-index: 2;
     box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
 
