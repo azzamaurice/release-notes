@@ -6,7 +6,7 @@
 import { each } from 'lodash-es'
 
 export default {
-    name: 'Slack',
+    name: 'Changelog',
     props: {
         general: String,
         behind: [Array, String],
