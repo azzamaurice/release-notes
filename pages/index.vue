@@ -5,96 +5,92 @@
         </header>
 
         <main>
-            <div class="main-inner">
-                <section>
-                    <h2>Input details</h2>
+            <section>
+                <h2>Input details</h2>
 
-                    <FormTextArea
-                        v-model="general"
-                        label="General Message"
-                        placeholder="Welcoming Message"/>
+                <FormTextArea
+                    v-model="general"
+                    label="General Message"
+                    placeholder="Welcoming Message"/>
 
-                    <FormTextArea
-                        v-model="journal"
-                        label="Journal Only Message"
-                        placeholder="Information for super-behind-the scenes"/>
+                <FormTextArea
+                    v-model="journal"
+                    label="Journal Only Message"
+                    placeholder="Information for super-behind-the scenes"/>
 
-                    <FormTextArea
-                        v-model="behindTheScenes"
-                        label="Behind the scenes"
-                        placeholder="What's something that's been worked on?"/>
+                <FormTextArea
+                    v-model="behindTheScenes"
+                    label="Behind the scenes"
+                    placeholder="What's something that's been worked on?"/>
 
-                    <FormTextArea
-                        v-model="betaFeatures"
-                        label="Beta Improvements"
-                        placeholder="Any improvements to our BETA features this week?"/>
+                <FormTextArea
+                    v-model="betaFeatures"
+                    label="Beta Improvements"
+                    placeholder="Any improvements to our BETA features this week?"/>
 
-                    <FormTextArea
-                        v-model="newFeatures"
-                        label="New Features"
-                        placeholder="New Features this week"/>
+                <FormTextArea
+                    v-model="newFeatures"
+                    label="New Features"
+                    placeholder="New Features this week"/>
 
-                    <FormTextArea
-                        v-model="uiImprovements"
-                        label="UI + Other Improvements"
-                        placeholder="General Improvements to the system"/>
+                <FormTextArea
+                    v-model="uiImprovements"
+                    label="UI + Other Improvements"
+                    placeholder="General Improvements to the system"/>
 
-                    <FormTextArea
-                        v-model="bugFixes"
-                        label="Bug Fixes"
-                        placeholder="Bugs fixed this week"/>
-                </section>
+                <FormTextArea
+                    v-model="bugFixes"
+                    label="Bug Fixes"
+                    placeholder="Bugs fixed this week"/>
+            </section>
 
-                <section>
-                    <h2>Output</h2>
+            <section>
+                <h2>Output</h2>
 
-                    <div class="options">
-                        <label for="radio-slack">
-                            <input v-model="outputType" id="radio-slack" type="radio" value="slack">
-                            Slack
-                        </label>
-                        <label for="radio-changelog">
-                            <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
-                            Changelog
-                        </label>
-                        <label for="radio-journal">
-                            <input v-model="outputType" id="radio-journal" type="radio" value="journal">
-                            Journal
-                        </label>
-                    </div>
+                <div class="options">
+                    <label for="radio-slack">
+                        <input v-model="outputType" id="radio-slack" type="radio" value="slack">
+                        Slack
+                    </label>
+                    <label for="radio-changelog">
+                        <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
+                        Changelog
+                    </label>
+                    <label for="radio-journal">
+                        <input v-model="outputType" id="radio-journal" type="radio" value="journal">
+                        Journal
+                    </label>
+                </div>
 
-                    <Slack
-                        v-if="outputType === `slack`"
-                        v-bind="slackProps"
-                        @output="updateOutput"/>
+                <Slack
+                    v-if="outputType === `slack`"
+                    v-bind="slackProps"
+                    @output="updateOutput"/>
 
-                    <Changelog
-                        v-if="outputType === `changelog`"
-                        v-bind="changelogProps"
-                        @output="updateOutput"/>
+                <Changelog
+                    v-if="outputType === `changelog`"
+                    v-bind="changelogProps"
+                    @output="updateOutput"/>
 
-                    <Journal
-                        v-if="outputType === `journal`"
-                        ref="journal"
-                        v-bind="journalProps"/>
-                </section>
-            </div>
+                <Journal
+                    v-if="outputType === `journal`"
+                    ref="journal"
+                    v-bind="journalProps"/>
+            </section>
         </main>
 
         <footer>
-            <div class="footer-inner">
-                <button
-                    class="btn"
-                    @click="clearText">
-                    Clear
-                </button>
+            <button
+                class="btn"
+                @click="clearText">
+                Clear
+            </button>
 
-                <button
-                    class="btn blaze"
-                    @click="copy">
-                    Copy
-                </button>
-            </div>
+            <button
+                class="btn blaze"
+                @click="copy">
+                Copy
+            </button>
         </footer>
     </div>
 </template>
@@ -304,38 +300,32 @@ export default {
 
 <style lang="scss" scoped>
 .release-notes {
-    --main-inner-flex-direction: column;
-    --main-overflow-y: auto;
-    --section-flex: 0 0 100%;
-    --section-overflow-y: visible;
+    --section-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
+    --header-footer-padding: 0.5rem;
 
     @media (min-width: 768px) {
-        --main-inner-flex-direction: row;
-        --main-overflow-y: hidden;
-        --section-flex: 1 1 50%;
-        --section-overflow-y: scroll;
+        --header-footer-padding: 1rem;
+        --main-display: flex;
+        --main-overflow: hidden;
     }
 }
 
 .release-notes {
     position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 header {
-    flex: 0;
-    /*display: flex;*/
-    padding: 1rem;
+    padding: var(--header-footer-padding);
     color: white;
     background: var(--blaze);
-    z-index: 2;
-    box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
+    box-shadow: var(--section-shadow);
 
     h1 {
         margin: 0;
@@ -343,42 +333,36 @@ header {
 }
 
 main {
-    display: flex;
+    display: var(--main-display);
     flex: 1;
-    overflow-x: hidden;
-    overflow-y: var(--main-overflow-y);
-    z-index: 1;
-}
-
-.main-inner {
-    flex: 1;
-    display: flex;
-    flex-direction: var(--main-inner-flex-direction);
+    overflow: var(--main-overflow, scroll);
 }
 
 footer {
-    flex: 0;
-    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--header-footer-padding);
     background-color: var(--beige);
-    z-index: 2;
-    box-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
+    box-shadow: var(--section-shadow);
 
     button {
         & + button {
-            margin-left: 1rem;
+            margin-left: 0.5rem;
+
+            @media (min-width: 768px) {
+                margin-left: 1rem;
+            }
         }
     }
 }
 
-.footer-inner {
-    display: flex;
-    justify-content: flex-end;
-}
-
 section {
-    flex: var(--section-flex);
     padding: 1rem;
-    overflow-y: var(--section-overflow-y);
+
+    @media (min-width: 768px) {
+        flex: 1 0 50%;
+        overflow-x: scroll;
+    }
 }
 
 .options {

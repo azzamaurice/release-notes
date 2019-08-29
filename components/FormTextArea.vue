@@ -36,11 +36,14 @@ export default {
 
 <style scoped>
 .textarea {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
 }
 
 label {
     font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
+    margin-bottom: 0.5rem;
 }
 </style>
