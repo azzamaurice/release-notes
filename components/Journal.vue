@@ -12,6 +12,9 @@ export default {
         improvements: [Array, String, Boolean],
         fixes: [Array, String, Boolean]
     },
+    mounted() {
+        this.$emit(`output`)
+    },
     render(h) {
         const output = []
 
@@ -61,16 +64,12 @@ export default {
 
         return h(
             `div`,
-            {
-                class: `journal-preview`
-            },
+            { class: `journal-preview` },
             output
         )
     },
-    watch: {
-        output(value) {
-            this.$emit(`output`, value)
-        }
+    updated() {
+        this.$emit(`output`)
     }
 }
 </script>

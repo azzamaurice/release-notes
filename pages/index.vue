@@ -47,20 +47,7 @@
             <section>
                 <h2>Output</h2>
 
-                <div class="options">
-                    <label for="radio-slack">
-                        <input v-model="outputType" id="radio-slack" type="radio" value="slack">
-                        Slack
-                    </label>
-                    <label for="radio-changelog">
-                        <input v-model="outputType" id="radio-changelog" type="radio" value="changelog">
-                        Changelog
-                    </label>
-                    <label for="radio-journal">
-                        <input v-model="outputType" id="radio-journal" type="radio" value="journal">
-                        Journal
-                    </label>
-                </div>
+                <FormRadio v-model="outputType" :options="outputTypeOptions"/>
 
                 <Slack
                     v-if="outputType === `slack`"
@@ -74,8 +61,8 @@
 
                 <Journal
                     v-if="outputType === `journal`"
-                    ref="journal"
-                    v-bind="journalProps"/>
+                    v-bind="journalProps"
+                    ref="journal"/>
             </section>
         </main>
 
@@ -96,17 +83,35 @@
 </template>
 
 <script>
+import { mapValues } from 'lodash-es'
 import Copy from 'copy-to-clipboard'
 import Storage from 'local-storage'
+import Changelog from '@/components/Changelog'
+import FormRadio from '@/components/FormRadio'
 import FormTextArea from '@/components/FormTextArea'
+import Journal from '@/components/Journal'
+import Slack from '@/components/Slack'
+
+const defaultValues = {
+    general: ``,
+    journal: ``,
+    behindTheScenes: ``,
+    betaFeatures: ``,
+    newFeatures: ``,
+    uiImprovements: ``,
+    bugFixes: ``,
+    output: ``,
+    outputType: `slack`
+}
 
 export default {
     name: `ReleaseNotes`,
     components: {
+        FormRadio,
         FormTextArea,
-        Changelog: () => import('@/components/Changelog'),
-        Journal: () => import('@/components/Journal'),
-        Slack: () => import('@/components/Slack')
+        Changelog,
+        Journal,
+        Slack
     },
     data() {
         return {
@@ -117,8 +122,22 @@ export default {
             newFeatures: ``,
             uiImprovements: ``,
             bugFixes: ``,
-            output: `slack`,
-            outputType: ``
+            output: ``,
+            outputType: `slack`,
+            outputTypeOptions: [
+                {
+                    value: `slack`,
+                    label: `Slack`
+                },
+                {
+                    value: `changelog`,
+                    label: `Changelog`
+                },
+                {
+                    value: `journal`,
+                    label: `Journal`
+                }
+            ]
         }
     },
     created() {
@@ -129,6 +148,7 @@ export default {
         this.newFeatures = Storage.get(`newFeatures`) || ``
         this.uiImprovements = Storage.get(`uiImprovements`) || ``
         this.bugFixes = Storage.get(`bugFixes`) || ``
+        this.output = Storage.get(`output`) || ``
         this.outputType = Storage.get(`outputType`) || ``
     },
     computed: {
@@ -257,16 +277,12 @@ export default {
             this.output = value
         },
         copy() {
-            if (this.outputType !== `journal`) {
-                Copy(this.output)
+            if (this.outputType === `journal`) {
+                Copy(this.$refs.journal.$el.innerHTML, { format: `text/html` })
             } else {
-                Copy(
-                    this.$refs.journal.$el.innerHTML,
-                    {
-                        format: `text/html`
-                    }
-                )
+                Copy(this.output)
             }
+
         }
     },
     watch: {
@@ -290,6 +306,9 @@ export default {
         },
         bugFixes(value) {
             Storage.set(`bugFixes`, value)
+        },
+        output(value) {
+            Storage.set(`output`, value)
         },
         outputType(value) {
             Storage.set(`outputType`, value)

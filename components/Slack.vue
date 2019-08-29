@@ -15,6 +15,9 @@ export default {
         improvements: [Array, String, Boolean],
         fixes: [Array, String, Boolean]
     },
+    mounted() {
+        this.$emit(`output`, this.output)
+    },
     computed: {
         output() {
             let output = [
