@@ -18,30 +18,30 @@
                     label="Journal Only Message"
                     placeholder="Information for super-behind-the scenes"/>
 
-                <FormTextArea
-                    v-model="behindTheScenes"
+                <FormList
+                    v-model="behind"
                     label="Behind the scenes"
-                    placeholder="What's something that's been worked on?"/>
+                    description="What's something that's been worked on?"/>
 
-                <FormTextArea
-                    v-model="betaFeatures"
+                <FormList
+                    v-model="beta"
                     label="Beta Improvements"
-                    placeholder="Any improvements to our BETA features this week?"/>
+                    description="Any improvements to our BETA features this week?"/>
 
-                <FormTextArea
-                    v-model="newFeatures"
+                <FormList
+                    v-model="features"
                     label="New Features"
-                    placeholder="New Features this week"/>
+                    description="New Features this week"/>
 
-                <FormTextArea
-                    v-model="uiImprovements"
+                <FormList
+                    v-model="improvements"
                     label="UI + Other Improvements"
-                    placeholder="General Improvements to the system"/>
+                    description="General Improvements to the system"/>
 
-                <FormTextArea
-                    v-model="bugFixes"
+                <FormList
+                    v-model="fixes"
                     label="Bug Fixes"
-                    placeholder="Bugs fixed this week"/>
+                    description="Bugs fixed this week"/>
             </section>
 
             <section>
@@ -51,17 +51,17 @@
 
                 <Slack
                     v-if="outputType === `slack`"
-                    v-bind="slackProps"
+                    v-bind="outputProps"
                     @output="updateOutput"/>
 
                 <Changelog
                     v-if="outputType === `changelog`"
-                    v-bind="changelogProps"
+                    v-bind="outputProps"
                     @output="updateOutput"/>
 
                 <Journal
                     v-if="outputType === `journal`"
-                    v-bind="journalProps"
+                    v-bind="outputProps"
                     ref="journal"/>
             </section>
         </main>
@@ -69,8 +69,8 @@
         <footer>
             <button
                 class="btn"
-                @click="clearText">
-                Clear
+                @click="resetValues">
+                Reset
             </button>
 
             <button
@@ -83,47 +83,52 @@
 </template>
 
 <script>
-import { mapValues } from 'lodash-es'
+import {
+    filter,
+    merge
+} from 'lodash-es'
 import Copy from 'copy-to-clipboard'
 import Storage from 'local-storage'
 import Changelog from '@/components/Changelog'
+import FormList from '@/components/FormList'
 import FormRadio from '@/components/FormRadio'
 import FormTextArea from '@/components/FormTextArea'
 import Journal from '@/components/Journal'
 import Slack from '@/components/Slack'
 
 const defaultValues = {
-    general: ``,
-    journal: ``,
-    behindTheScenes: ``,
-    betaFeatures: ``,
-    newFeatures: ``,
-    uiImprovements: ``,
-    bugFixes: ``,
-    output: ``,
+    general: null,
+    journal: null,
+    behind: [],
+    beta: [],
+    features: [],
+    improvements: [],
+    fixes: [],
+    output: null,
     outputType: `slack`
 }
 
 export default {
     name: `ReleaseNotes`,
     components: {
+        Changelog,
+        FormList,
         FormRadio,
         FormTextArea,
-        Changelog,
         Journal,
         Slack
     },
     data() {
         return {
-            general: ``,
-            journal: ``,
-            behindTheScenes: ``,
-            betaFeatures: ``,
-            newFeatures: ``,
-            uiImprovements: ``,
-            bugFixes: ``,
-            output: ``,
-            outputType: `slack`,
+            general: null,
+            journal: null,
+            behind: [],
+            beta: [],
+            features: [],
+            improvements: [],
+            fixes: [],
+            output: null,
+            outputType: null,
             outputTypeOptions: [
                 {
                     value: `slack`,
@@ -141,38 +146,10 @@ export default {
         }
     },
     created() {
-        this.general = Storage.get(`general`) || ``
-        this.journal = Storage.get(`journal`) || ``
-        this.behindTheScenes = Storage.get(`behindTheScenes`) || ``
-        this.betaFeatures = Storage.get(`betaFeatures`) || ``
-        this.newFeatures = Storage.get(`newFeatures`) || ``
-        this.uiImprovements = Storage.get(`uiImprovements`) || ``
-        this.bugFixes = Storage.get(`bugFixes`) || ``
-        this.output = Storage.get(`output`) || ``
-        this.outputType = Storage.get(`outputType`) || ``
+        this.updateValues()
     },
     computed: {
-        slackProps() {
-            return {
-                general: this.general,
-                behind: this.behind,
-                beta: this.beta,
-                features: this.features,
-                improvements: this.improvements,
-                fixes: this.fixes
-            }
-        },
-        changelogProps() {
-            return {
-                general: this.general,
-                behind: this.behind,
-                beta: this.beta,
-                features: this.features,
-                improvements: this.improvements,
-                fixes: this.fixes
-            }
-        },
-        journalProps() {
+        outputProps() {
             return {
                 general: this.general,
                 journal: this.journal,
@@ -182,97 +159,9 @@ export default {
                 improvements: this.improvements,
                 fixes: this.fixes
             }
-        },
-        behind() {
-            if (this.behindTheScenes.length) {
-                let split = this.behindTheScenes.split('\n')
-                let returned = []
-
-                for (let part in split) {
-                    if (split[part] !== ``) {
-                        returned.push(split[part])
-                    }
-                }
-
-                return returned
-            }
-
-            return false
-        },
-        beta() {
-            if (this.betaFeatures.length) {
-                let split = this.betaFeatures.split('\n')
-                let returned = []
-
-                for (let part in split) {
-                    if (split[part] !== ``) {
-                        returned.push(split[part])
-                    }
-                }
-
-                return returned
-            }
-
-            return false
-        },
-        features() {
-            if (this.newFeatures.length) {
-                let split = this.newFeatures.split('\n')
-                let returned = []
-
-                for (let part in split) {
-                    if (split[part] !== ``) {
-                        returned.push(split[part])
-                    }
-                }
-
-                return returned
-            }
-
-            return false
-        },
-        improvements() {
-            if (this.uiImprovements.length) {
-                let split = this.uiImprovements.split('\n')
-                let returned = []
-
-                for (let part in split) {
-                    if (split[part] !== ``) {
-                        returned.push(split[part])
-                    }
-                }
-
-                return returned
-            }
-
-            return false
-        },
-        fixes() {
-            if (this.bugFixes.length) {
-                let split = this.bugFixes.split('\n')
-                let returned = []
-                for (let part in split) {
-                    if (split[part] !== ``) {
-                        returned.push(split[part])
-                    }
-                }
-
-                return returned
-            }
-
-            return false
         }
     },
     methods: {
-        clearText() {
-            this.general = ``
-            this.journal = ``
-            this.behindTheScenes = ``
-            this.betaFeatures = ``
-            this.newFeatures = ``
-            this.uiImprovements = ``
-            this.bugFixes = ``
-        },
         updateOutput(value) {
             this.output = value
         },
@@ -282,36 +171,76 @@ export default {
             } else {
                 Copy(this.output)
             }
+        },
+        resetValues() {
+            this.general = defaultValues.general
+            this.journal = defaultValues.journal
+            this.behind = defaultValues.behind
+            this.beta = defaultValues.beta
+            this.features = defaultValues.features
+            this.improvements = defaultValues.improvements
+            this.fixes = defaultValues.fixes
+            this.output = defaultValues.output
+            this.outputType = defaultValues.outputType
+        },
+        updateValues() {
+            const {
+                general,
+                journal,
+                behind,
+                beta,
+                features,
+                improvements,
+                fixes,
+                output,
+                outputType
+            } = merge(Storage.get(`notes`), defaultValues)
 
+            this.general = general
+            this.journal = journal
+            this.behind = behind
+            this.beta = beta
+            this.features = features
+            this.improvements = improvements
+            this.fixes = fixes
+            this.output = output
+            this.outputType = outputType
+        },
+        updateStorage(field, value) {
+            const notes = Storage.get(`notes`) || {}
+
+            notes[field] = value || null
+
+            Storage.set(`notes`, notes)
         }
     },
     watch: {
         general(value) {
-            Storage.set(`general`, value)
+            this.updateStorage(`general`, value)
         },
         journal(value) {
-            Storage.set(`journal`, value)
+            this.updateStorage(`journal`, value)
         },
-        behindTheScenes(value) {
-            Storage.set(`behindTheScenes`, value)
+        behind(value) {
+            this.updateStorage(`behind`, value)
         },
-        betaFeatures(value) {
-            Storage.set(`betaFeatures`, value)
+        beta(value) {
+            this.updateStorage(`beta`, value)
         },
-        newFeatures(value) {
-            Storage.set(`newFeatures`, value)
+        features(value) {
+            this.updateStorage(`features`, value)
         },
-        uiImprovements(value) {
-            Storage.set(`uiImprovements`, value)
+        improvements(value) {
+            this.updateStorage(`improvements`, value)
         },
-        bugFixes(value) {
-            Storage.set(`bugFixes`, value)
+        fixes(value) {
+            this.updateStorage(`fixes`, value)
         },
         output(value) {
-            Storage.set(`output`, value)
+            this.updateStorage(`output`, value)
         },
         outputType(value) {
-            Storage.set(`outputType`, value)
+            this.updateStorage(`outputType`, value)
         }
     }
 }
@@ -343,7 +272,7 @@ export default {
 header {
     padding: var(--header-footer-padding);
     color: white;
-    background: var(--blaze);
+    background: var(--orange);
     box-shadow: var(--section-shadow);
 
     h1 {

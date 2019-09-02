@@ -1,8 +1,7 @@
-textarea {
+@mixin form-styles {
     display: block;
     width: 100%;
     padding: 0.5rem;
-    min-height: 5rem;
     border: 1px solid var(--silver);
     border-radius: var(--radius);
     outline: none;
@@ -14,4 +13,13 @@ textarea {
             -4px -6px 8px var(--queen-blue-pale),
             6px 4px 12px var(--queen-blue-pale);
     }
+}
+
+input[type=text],
+textarea {
+    @include form-styles;
+}
+
+textarea {
+    min-height: 5rem;
 }
