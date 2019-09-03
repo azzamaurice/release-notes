@@ -19,7 +19,7 @@
                 :value="behind"
                 label="Behind the scenes"
                 description="What's something that's been worked on?"
-                @input="updateBehind"/>
+                @input="updateValue({ behind: $event })"/>
 
             <FormList
                 :value="beta"
