@@ -1,27 +1,21 @@
 body {
-    font-family: var(--body-font);
     font-weight: var(--body-font-weight-normal);
     color: var(--grey-dark);
 }
 
 h1 {
-    font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
 }
 
 h2 {
-    font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
 }
 
 h3 {
-    font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
 }
 
 pre {
-    font-family: var(--monospace-font);
-    font-weight: var(--monospace-font-weight);
     padding: 0.5rem;
     background-color: var(--beige-pale);
     border: 1px solid var(--silver);

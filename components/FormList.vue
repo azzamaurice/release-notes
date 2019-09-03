@@ -137,7 +137,6 @@ export default {
 }
 
 .label {
-    font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
     margin-bottom: 0.5rem;
 }
