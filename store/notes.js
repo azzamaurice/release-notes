@@ -75,7 +75,7 @@ export const mutations = {
         state.journalRef = ref
     },
     UPDATE_VALUE(state, data) {
-        state = merge(state, data)
+        state[Object.keys(data)[0]] = Object.values(data)[0]
     },
     RESET_VALUES(state) {
         Object.assign(state, defaultState)

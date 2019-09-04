@@ -11,6 +11,9 @@ export const getters = {
 export const actions = {
     setFooterButtons({ commit }, buttons) {
         commit('SET_FOOTER_BUTTONS', buttons)
+    },
+    footerAction({ dispatch }, action) {
+        dispatch(action, { root: true })
     }
 }
 

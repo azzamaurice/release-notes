@@ -36,12 +36,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            resetValues: `notes/resetValues`,
-            copy: `notes/copy`
-        }),
-        action(action) {
-            this[action]()
-        }
+            action: `footerAction`
+        })
     }
 }
 </script>

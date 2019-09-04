@@ -114,12 +114,12 @@ export default {
             {
                 label: `Reset`,
                 classes: [`btn`],
-                action: `resetValues`
+                action: `notes/resetValues`
             },
             {
                 label: `Copy`,
                 classes: [`btn`, `orange`],
-                action: `copy`
+                action: `notes/copy`
             }
         ])
         this.setJournalRef(this.$refs.journal)
@@ -149,9 +149,6 @@ export default {
         }
     },
     methods: {
-        updateBehind(data) {
-            console.log({ data })
-        },
         ...mapActions({
             setFooterButtons: `setFooterButtons`,
             setJournalRef: `notes/setJournalRef`,
