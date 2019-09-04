@@ -2,7 +2,7 @@ import Storage from 'local-storage'
 import { merge } from 'lodash-es'
 
 export const state = () => ({
-    darkMode: Storage.get(`global`).darkMode || false,
+    darkMode: !!Storage.get(`global`) && Storage.get(`global`).darkMode,
     footerButtons: []
 })
 
