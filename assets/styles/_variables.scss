@@ -2,6 +2,16 @@
     --heading-font-weight: 500;
     --body-font-weight-normal: 400;
     --body-font-weight-bold: 600;
+    --body-color: hsl(0, 0%, 12%);
+    --body-background: hsl(0, 0%, 98%);
+    --header-color: hsl(0, 0%, 98%);
+    --header-background: hsl(27, 100%, 49%);
+    --footer-background: hsl(0, 0%, 88%);
+    --pre-color: hsl(0, 0%, 8%);
+    --pre-background: hsl(0, 0%, 92%);
+    --form-color: hsl(0, 0%, 10%);
+    --form-background: hsl(0, 0%, 98%);
+    --form-border: hsl(0, 0%, 70%);
 
     --orange: hsl(27, 100%, 49%);
     --beige: hsl(0, 0%, 92%);
@@ -9,6 +19,7 @@
     --silver: hsl(0, 0%, 75%);
     --queen-blue: hsl(211, 48%, 44%);
     --queen-blue-pale: hsl(211, 48%, 90%);
+    --queen-blue-transparent: hsla(211, 48%, 90%, 0.5);
     --green: hsl(120, 86%, 42%);
     --green-pale: hsl(120, 86%, 90%);
     --blue: hsl(209, 100%, 30%);
@@ -20,6 +31,19 @@
     --grey-pale: hsl(0, 0%, 90%);
 
     --radius: 3px;
+}
+
+.dark {
+    --body-color: hsl(0, 0%, 92%);
+    --body-background: hsl(0, 0%, 16%);
+    --footer-background: hsl(0, 0%, 12%);
+    --header-color: hsl(0, 0%, 92%);
+    --header-background: hsl(0, 0%, 12%);
+    --pre-color: hsl(0, 0%, 96%);
+    --pre-background: hsl(0, 0%, 20%);
+    --form-color: hsl(0, 0%, 96%);
+    --form-background: hsl(0, 0%, 16%);
+    --form-border: hsl(0, 0%, 40%);
 }
 
 *,

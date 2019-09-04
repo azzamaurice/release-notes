@@ -21,7 +21,9 @@ export default {
         'normalize.css',
         '@/assets/styles/styles.scss'
     ],
-    plugins: [],
-    buildModules: [],
-    modules: []
+    router: {
+        middleware: [
+            'dark-mode'
+        ]
+    }
 }

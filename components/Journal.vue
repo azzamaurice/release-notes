@@ -78,8 +78,9 @@ export default {
 <style lang="scss" scoped>
 .journal-preview {
     padding: 0 1rem;
-    background-color: var(--beige-pale);
-    border: 1px solid var(--silver);
+    color: var(--pre-color);
+    background-color: var(--pre-background);
+    border: 1px solid var(--form-border);
     border-radius: var(--radius);
 }
 </style>

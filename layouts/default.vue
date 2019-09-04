@@ -2,6 +2,10 @@
     <div class="body" :class="{ standalone }">
         <header>
             <h1>Release Notes</h1>
+
+            <button @click="toggleDarkMode">
+                <Icon :icon="darkMode ? `sun` : `moon`"/>
+            </button>
         </header>
 
         <nuxt class="main"/>
@@ -19,8 +23,16 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome'
+
+library.add(faMoon, faSun)
 
 export default {
+    components: {
+        Icon
+    },
     data() {
         return {
             standalone: false
@@ -31,12 +43,14 @@ export default {
     },
     computed: {
         ...mapGetters({
-            buttons: `getFooterButtons`
+            buttons: `getFooterButtons`,
+            darkMode: `getDarkMode`
         })
     },
     methods: {
         ...mapActions({
-            action: `footerAction`
+            action: `footerAction`,
+            toggleDarkMode: `toggleDarkMode`
         })
     }
 }
@@ -44,7 +58,6 @@ export default {
 
 <style lang="scss" scoped>
 .body {
-    --section-shadow: 0 0 4px hsla(0, 0%, 50%, 0.5);
     --header-footer-padding: 0.5rem;
 
     @media (max-width: 767px) {
@@ -69,17 +82,31 @@ export default {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    color: var(--body-color);
+    background-color: var(--body-background);
 }
 
 header {
+    display: flex;
     padding: var(--header-footer-padding);
-    color: white;
-    background: var(--orange);
-    box-shadow: var(--section-shadow);
+    color: var(--header-color);
+    background: var(--header-background);
 
     h1 {
         margin: 0;
+    }
+
+    button {
+        margin-left: auto;
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        padding: 0;
+        font-size: 1rem;
+        color: white;
+        background: none;
+        border: none;
+        outline: none;
     }
 }
 
@@ -87,8 +114,7 @@ footer {
     display: flex;
     justify-content: flex-end;
     padding: var(--header-footer-padding);
-    background-color: var(--beige);
-    box-shadow: var(--section-shadow);
+    background-color: var(--footer-background);
 
     button {
         & + button {

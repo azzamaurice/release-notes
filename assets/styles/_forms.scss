@@ -2,16 +2,16 @@
     display: block;
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid var(--silver);
+    color: var(--form-color);
+    background-color: var(--form-background);
+    border: 1px solid var(--form-border);
     border-radius: var(--radius);
     outline: none;
-    transition: all 0.5s;
+    transition: all 240ms;
 
     &:focus {
         border-color: var(--queen-blue);
-        box-shadow:
-            -4px -6px 8px var(--queen-blue-pale),
-            6px 4px 12px var(--queen-blue-pale);
+        box-shadow: 0 0 4px var(--queen-blue-transparent);
     }
 }
 
