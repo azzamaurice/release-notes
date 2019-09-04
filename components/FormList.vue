@@ -12,10 +12,11 @@
                 </div>
 
                 <input
-                    v-model="list[index]"
                     ref="input"
                     type="text"
+                    :value="list[index]"
                     :key="index"
+                    @input="update(index, $event)"
                     @keyup.enter="add(index)">
 
                 <button
@@ -82,48 +83,62 @@ export default {
     },
     methods: {
         /**
-         * Adds a new step
+         * Add item
          *
          * @param {number} [index]
          */
         add(index = -1) {
-            const value = cloneDeep(this.value)
+            const list = cloneDeep(this.value)
 
             if (isNaN(index) || index < 0) {
-                value.push(``)
+                list.push(``)
 
                 setTimeout(() => {
                     last(this.$refs.input).focus()
                 }, 10)
             } else {
-                value.splice(index + 1, 0, ``)
+                list.splice(index + 1, 0, ``)
 
                 setTimeout(() => {
                     this.$refs.input[index + 1].focus()
                 }, 10)
             }
 
-            this.$emit(`input`, value)
+            this.$emit(`input`, list)
         },
         /**
-         * Removes a step based on index
+         * Edit item
+         *
+         * @param {number} index
+         * @param {object} event
+         * @param {object} event.target
+         */
+        update(index, { target }) {
+            const list = cloneDeep(this.value)
+
+            list[index] = target.value
+
+            this.$emit(`input`, list)
+        },
+        /**
+         * Removes item based on index
          *
          * @param {number} index
          */
         remove(index) {
-            let value = reject(this.value, (item, i) => {
+            let list = reject(this.value, (item, i) => {
                 return i === index
             })
 
-            this.$emit(`input`, value)
+            this.$emit(`input`, list)
         }
     },
     watch: {
-        value(value) {
-            this.list = value
+        value(list) {
+            this.list = list
         },
-        list(value) {
-            this.$emit(`input`, value)
+        list(list) {
+            this.$emit(`input`, list)
         }
     }
 }
@@ -137,7 +152,6 @@ export default {
 }
 
 .label {
-    font-family: var(--heading-font);
     font-weight: var(--heading-font-weight);
     margin-bottom: 0.5rem;
 }

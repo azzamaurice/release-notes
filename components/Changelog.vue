@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { each } from 'lodash-es'
+import { compact, each, isEmpty } from 'lodash-es'
 
 export default {
     name: 'Changelog',
@@ -22,7 +22,7 @@ export default {
         output() {
             let output = []
 
-            if (this.general && this.general.length) {
+            if (!isEmpty(this.general)) {
                 output.push(
                     `${this.general}`,
                     ``
@@ -35,7 +35,7 @@ export default {
                     `Behind the scenes, we've been working on the following areas:`
                 )
 
-                each(this.behind, item => {
+                each(compact(this.behind), item => {
                     output.push(`- ${item}`)
                 })
 
@@ -54,7 +54,7 @@ export default {
                     output.push(`To start off with, we've made the following improvements to our existing BETA features:`)
                 }
 
-                each(this.beta, item => {
+                each(compact(this.beta), item => {
                     output.push(`- ${item}`)
                 })
 
@@ -67,7 +67,7 @@ export default {
                     `We're pleased to announce the following new features have been released this week!`
                 )
 
-                each(this.features, item => {
+                each(compact(this.features), item => {
                     output.push(`- ${item}`)
                 })
 
@@ -80,7 +80,7 @@ export default {
                     `We've made some general improvements to the system this week, including:`
                 )
 
-                each(this.improvements, item => {
+                each(compact(this.improvements), item => {
                     output.push(`- ${item}`)
                 })
 
@@ -93,7 +93,7 @@ export default {
                     `In addition to the above news, we also fixed the following bugs:`
                 )
 
-                each(this.fixes, item => {
+                each(compact(this.fixes), item => {
                     output.push(`- ${item}`)
                 })
             }
