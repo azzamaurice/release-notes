@@ -11,7 +11,7 @@ const defaultState = {
     improvements: [],
     fixes: [],
     output: null,
-    outputType: `slack`
+    outputType: `changelog`
 }
 
 export const state = () => ({

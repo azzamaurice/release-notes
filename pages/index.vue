@@ -54,11 +54,6 @@
                 :options="outputTypeOptions"
                 @input="updateValue({ outputType: $event })"/>
 
-            <Slack
-                v-if="outputType === `slack`"
-                v-bind="outputProps"
-                @output="updateValue({ output: $event })"/>
-
             <Changelog
                 v-if="outputType === `changelog`"
                 v-bind="outputProps"
@@ -79,7 +74,6 @@ import FormList from '@/components/FormList'
 import FormRadio from '@/components/FormRadio'
 import FormTextArea from '@/components/FormTextArea'
 import Journal from '@/components/Journal'
-import Slack from '@/components/Slack'
 
 export default {
     name: `ReleaseNotes`,
@@ -88,16 +82,11 @@ export default {
         FormList,
         FormRadio,
         FormTextArea,
-        Journal,
-        Slack
+        Journal
     },
     data() {
         return {
             outputTypeOptions: [
-                {
-                    value: `slack`,
-                    label: `Slack`
-                },
                 {
                     value: `changelog`,
                     label: `Changelog`
